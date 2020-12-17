@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%
+    var action='',boton='';
+    if(_id){
+        action='edit/'+_id;
+        boton='Editar'
+        %>Nuevo Noticia<%
+    }else
+    {
+        action='nuevo';
+        boton='Enviar';
+        %>Editar Noticia<%
+    }
+    %>
+    <form action="/noticia/<%=action%>" method="post">
+        
+        <input type="text" name="titulo" value="<%=titulo%>" id="">
+        <div style="color: red;">
+            <%= error && error.errors['titulo']?error.errors['titulo'].message:''%>
+        </div>
+        <br>
+        <input type="text" name="cuerpo" value="<%=cuerpo%>" id="">
+        <div style="color: red;">
+            <%= error &&  error.errors['cuerpo']?error.errors['cuerpo'].message:''%>
+        </div>
+        <input type="date" name="fecha" value="<%=fecha%>" id="">
+        <!--<input type="text" name="titulo" value="<%=titulo%>" id="">-->
+        <input type="submit" value="<%=boton%>">
+
+    </form>
+</body>
+</html>

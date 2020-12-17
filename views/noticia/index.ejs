@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<a href="/noticia/nuevo">+</a>
+<body>
+    <table>
+        <tr>
+            <th>titulo</th>
+            <th>cuerpo</th>
+            <th>fecha</th>
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+        <% for(i=0;i<lista.length;i++){%>
+        <tr>
+            <td><%=lista[i].titulo%></td>
+            <td><%=lista[i].cuerpo%></td>
+            <td><%=lista[i].fecha%></td>
+            <td><a onclick="return confirm('Esta seguro de borrar')" href="/noticia/borrar/<%=lista[i]._id%>">borrar</a></td>
+            <td><a href="/noticia/edit/<%=lista[i]._id%>">editar</a></td>
+        </tr>
+        <%}%>
+    </table>    
+</body>
+</html>
