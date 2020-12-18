@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 const schema = new mongoose.Schema({
-    nombre:String,
+    nombre:{type:String,required:true},
     apellido:String,
     ci:String,
     estado:Boolean,
