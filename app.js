@@ -6,14 +6,18 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var noticiaRouter = require('./routes/noticia');
-var personalRouter= require('./routes/personal');
+var almacenRouter = require('./routes/almacen');
+var productoRouter= require('./routes/producto');
 var db = require('./models/conexion');
 var app = express();
+//var expressLayouts = require('express-ejs-layouts');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', require('ejs-locals'));
 app.set('view engine', 'ejs');
+//app.use(expressLayouts);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -21,10 +25,43 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/noticia',noticiaRouter);
-app.use('/personal',personalRouter);
+app.use('/almacen',almacenRouter);
+app.use('/producto',productoRouter);
+/*********************************************** */
+var User = require('./models/User.model');
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ login: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.password===password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+/************************************/
 
 
 // catch 404 and forward to error handler

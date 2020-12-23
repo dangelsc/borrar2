@@ -1,0 +1,29 @@
+<% layout('../layout') -%>
+<% block('titulo','Almacen') -%>
+    <%
+    var action='',boton='';
+    if(_id){
+        action='edit/'+_id;
+        boton='Editar'
+        %>Nuevo Almacen<%
+    }else
+    {
+        action='nuevo';
+        boton='Enviar';
+        %>Editar Almacen<%
+    }
+    %>
+    <form action="/almacen/<%=action%>" method="post">
+        
+        <input type="text" name="nombre" value="<%=nombre%>" id="">
+        <div style="color: red;">
+            <%= error && error.errors['nombre']?error.errors['nombre'].message:''%>
+        </div>
+        <br>
+        <input type="text" name="direccion" value="<%=direccion%>" id="">
+        <div style="color: red;">
+            <%= error &&  error.errors['direccion']?error.errors['direccion'].message:''%>
+        </div>
+        <input type="submit" value="<%=boton%>">
+
+    </form>

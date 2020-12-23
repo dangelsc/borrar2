@@ -1,0 +1,23 @@
+<% layout('../layout') -%>
+<% block('titulo','Almacen') -%>
+
+    <h1>Producto</h1>
+    <div>
+        <a href="/producto/nuevo">nuevo</a>
+        <table class="table table-bordered">
+            <tr>
+                <td> nombre</td>
+                <td> precio</td>
+                <td> cant</td>
+            </tr>
+            <% for(i=0;i<lista.length;i++){%>
+            <tr>
+                <td><%=lista[i].nombre %></td> 
+                <td><%=lista[i].precio %></td> 
+                <td><%=lista[i].cantidad %></td> 
+                <td><a href="/producto/edit/<%=lista[i]._id%>">editar</a></td>
+                <td><a onclick="return confirm('esta seguro de borrar')" href="/producto/borrar/<%=lista[i]._id%>">borrar</a></td>
+            </tr>
+            <% }%>
+        </table>
+    </div>
