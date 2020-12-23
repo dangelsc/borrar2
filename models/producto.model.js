@@ -4,8 +4,10 @@ const schema = new mongoose.Schema({
     precio:Number,
     cantidad:Number,
     estado:Boolean,
+    usuarioModificacion:{type:mongoose.Schema.Types.ObjectId,ref:'user'}
 },{
-    collection:'producto'
+    collection:'producto',
+    timestamps: true
 });
 const model = mongoose.model('producto',schema);
 module.exports = model;

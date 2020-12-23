@@ -9,7 +9,12 @@ var usersRouter = require('./routes/users');
 var almacenRouter = require('./routes/almacen');
 var productoRouter= require('./routes/producto');
 var db = require('./models/conexion');
+
+var session = require('express-session')
+
 var app = express();
+
+
 //var expressLayouts = require('express-ejs-layouts');
 
 
@@ -24,11 +29,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+//app.set('trust proxy', 1) 
+app.use(session({
+  secret: 'keyboard cat',
+  saveUninitialized: true,
+  resave: true, 
+  cookie: {maxAge: 300000}
+}))
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 app.use('/', indexRouter);
@@ -44,7 +56,9 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.password===password) {
+      console.log(user.password,password)
+      console.log(!user.password.localeCompare(password)==0)
+      if (!user.password.localeCompare(password)==0) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -57,7 +71,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
-    done(err, user);
+    done(null, user);
   });
 });
 

@@ -1,6 +1,7 @@
 var Almacen = require('../models/almacen.model');
 var tabla='almacen';
 function  indexAdmin(req,res,next){
+
     Almacen.find({estado:1},(err,lista)=>{
         if(err)
             return res.render('./'+tabla+'/indexAdmin',{lista:[],error:err});
@@ -23,6 +24,8 @@ function  nuevo(req,res,next){
 function  nuevoPost(req,res,next){
     req.body.estado=1;
     let aux = new Almacen(req.body);
+    aux.ultimaModificacion = new Date();
+    aux.usuarioModificacion =  req.user._id;
     aux.save((err,dato)=>{
         if(err){
             req.body.error=err;

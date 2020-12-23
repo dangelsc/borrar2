@@ -22,6 +22,7 @@ function nuevo(req,res,next){
 function nuevoPost(req,res,next){
     let aux= new Producto(req.body);
     aux.estado=1;
+    aux.usuarioModificacion =  req.user._id;
     aux.save((err,dato)=>{
         if(err){
             aux.error=err;
@@ -57,6 +58,7 @@ function editPost(req,res ,next){
         auxproducto.error=err;
         return res.render('./'+producto+'/form',auxproducto);
     }
+    req.body.usuarioModificacion =  req.user._id;
     Producto.findByIdAndUpdate(req.params.id,req.body,(err,dato)=>{
         if(err){
             req.body.error=err;

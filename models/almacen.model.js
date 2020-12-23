@@ -3,6 +3,9 @@ const schema = new mongoose.Schema({
     nombre:{type:String,required:[true,'Este campo es necesario']},
     direccion:{type:String,required:true,minlength:[3,'Como minimo debe ser 10 caracteres']},
     estado:Boolean,
+    creacion:{type:Date,default:Date.now},
+    ultimaModificacion:Date,
+    usuarioModificacion:{type:mongoose.Schema.Types.ObjectId,ref:'user'}
 },{
     collection:'almacen'
 });
